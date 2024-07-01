@@ -1,0 +1,22 @@
+{
+  "name": "atd-exp",
+  "version": "1.0.0",
+  "description": "This project is a part of my journey to learn Express.js, following a general tutorial. It covers basic setup, authentication, testing, sessions, MongoDB integration, and unit testing.",
+  "main": "index.mjs",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./src/index.mjs",
+    "dev": "nodemon ./src/index.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2"
+  }
+}
