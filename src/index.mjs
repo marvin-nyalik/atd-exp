@@ -41,6 +41,18 @@ app.put("/api/users/:id", (req, res) => {
     res.status(204).json(mock_users[userIdx]);
   });
 
+  app.patch("/api/users/:id", (req, res) => {
+    const parsedId = parseInt(req.params.id);
+    const body = req.body
+  
+    if (isNaN(parsedId)) return res.sendStatus(400);
+  
+    const userIdx = mock_users.findIndex((user) => user.id === parsedId);
+    if (userIdx === -1) return res.sendStatus(404);
+    mock_users[userIdx] = { ...mock_users[userIdx], ...body }
+    res.status(200).json(mock_users[userIdx]);
+  });
+
 app.post('/api/users', (req, res) => {
   const newUser = { id: mock_users.length + 1, ...req.body }
   mock_users.push(newUser);
