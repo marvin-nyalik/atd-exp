@@ -59,6 +59,16 @@ app.post('/api/users', (req, res) => {
   res.status(201).json(newUser);
 })
 
+app.delete('/api/users/:id', (req, res) => {
+  const { id } = req.params;
+  const parsedId = parseInt(id);
+  if(isNaN(parsedId)) return res.sendStatus(400)
+const userIndex = mock_users.findIndex((user) => user.id === parsedId)
+if (userIndex === -1) return res.sendStatus(404);
+mock_users.splice(userIndex, 1)
+res.status(200).json({ msg: 'User deleted'})
+})
+
 app.listen(PORT, () => {
   console.log(`We are running on ${PORT}`);
 });
