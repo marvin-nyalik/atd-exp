@@ -1,6 +1,7 @@
 export const userValidationSchema = {
   username: {
     trim: true,
+    escape: true,
     notEmpty: {
       errorMessage: "Username must be present",
     },
@@ -17,6 +18,7 @@ export const userValidationSchema = {
   },
   name: {
     trim: true,
+    escape: true,
     isLength: {
       options: {
         min: 4,
@@ -32,6 +34,7 @@ export const userValidationSchema = {
     },
   },
 };
+
 //Alternatively...
 // import { body } from 'express-validator';
 
