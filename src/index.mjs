@@ -1,4 +1,6 @@
 import express from "express";
+import { body, checkSchema, validationResult, matchedData } from "express-validator";
+import { userValidationSchema } from "./utils/validationSchemas.mjs";
 
 const app = express();
 app.use(express.json());
@@ -55,11 +57,19 @@ app.patch("/api/users/:id", resolveUserMiddleware, (req, res) => {
   res.status(200).json(mock_users[userIdx]);
 });
 
-app.post("/api/users", (req, res) => {
-  const newUser = { id: mock_users.length + 1, ...req.body };
-  mock_users.push(newUser);
-  res.status(201).json(newUser);
-});
+app.post(
+  "/api/users",
+  checkSchema(userValidationSchema),
+  (req, res) => {
+    const result = validationResult(req);
+    const data = matchedData(req);
+    if (!result.isEmpty())
+      return res.status(400).json({ errors: result.array() });
+    const newUser = { id: mock_users.length + 1, ...data };
+    mock_users.push(newUser);
+    res.status(201).json(newUser);
+  }
+);
 
 app.delete("/api/users/:id", resolveUserMiddleware, (req, res) => {
   const { userIdx } = req;
