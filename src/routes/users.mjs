@@ -6,6 +6,20 @@ import { userValidationSchema } from "../utils/validationSchemas.mjs";
 
 const router = Router();
 
+router.post("/api/auth", (req, res) => {
+  const {
+    body: { username, password },
+  } = req;
+  const user = mock_users.find((user) => user.username === username);
+  if (!user || user.password !== password)
+    return res.status(400).json({ msg: "Wrong credentials" });
+  req.session.user = user;
+  req.sessionStore.get(req.sessionID, (err, data) => {
+    console.log(req.sessionID)
+  })
+  res.status(200).json({ user: user });
+});
+
 router.get("/api/users", (req, res) => {
   const { filter, value } = req.query;
 
