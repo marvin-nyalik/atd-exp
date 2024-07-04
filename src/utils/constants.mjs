@@ -1,13 +1,14 @@
 export const mock_users = [
-  { id: 1, username: "Marv", name: "Marvin" },
-  { id: 2, username: "Aleagy", name: "Aleagy" },
-  { id: 3, username: "Jane", name: "Jenito" },
-  { id: 4, username: "Lilian", name: "Mutinda" },
-  { id: 5, username: "Jacob", name: "Okoth" },
-  { id: 6, username: "Jazmine", name: "Mutiso" },
-  { id: 7, username: "Cecile", name: "Aketch" },
-  { id: 8, username: "Anthony", name: "Ochieng" },
+  { id: 1, username: "Marv", name: "Marvin", password: "password1" },
+  { id: 2, username: "Aleagy", name: "Aleagy", password: "password2" },
+  { id: 3, username: "Jane", name: "Jenito", password: "password3" },
+  { id: 4, username: "Lilian", name: "Mutinda", password: "password4" },
+  { id: 5, username: "Jacob", name: "Okoth", password: "password5" },
+  { id: 6, username: "Jazmine", name: "Mutiso", password: "password6" },
+  { id: 7, username: "Cecile", name: "Aketch", password: "password7" },
+  { id: 8, username: "Anthony", name: "Ochieng", password: "password8" },
 ];
+
 
 export const mock_products = [
   { id: 1, name: "Laptop", price: 1200, description: "A high-performance laptop suitable for all your computing needs." },
