@@ -2,6 +2,7 @@ import express from "express";
 import baseRouter from "./routes/index.mjs";
 import cookieParser from "cookie-parser";
 import session from "express-session";
+import passport from "passport";
 
 const app = express();
 app.use(express.json());
@@ -16,7 +17,9 @@ app.use(session({
     sameSite: 'lax',
     maxAge: 60000 * 10
   }
-}))
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(baseRouter);
 
