@@ -1,10 +1,23 @@
 import express from "express";
 import baseRouter from "./routes/index.mjs";
 import cookieParser from "cookie-parser";
+import session from "express-session";
 
 const app = express();
 app.use(express.json());
 app.use(cookieParser("ubungen"));
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'sessions-key',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    httpOnly: true,
+    secure: false,
+    sameSite: 'lax',
+    maxAge: 60000 * 10
+  }
+}))
+
 app.use(baseRouter);
 
 const PORT = process.env.PORT || 3100;
