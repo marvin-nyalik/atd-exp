@@ -33,6 +33,9 @@ export const userValidationSchema = {
       errorMessage: "Name must be a string",
     },
   },
+  password: {
+    notEmpty: true,
+  }
 };
 
 //Alternatively...
