@@ -4,6 +4,7 @@ import { resolveUserMiddleware } from "../utils/middlewares.mjs";
 import { checkSchema, validationResult, matchedData } from "express-validator";
 import { userValidationSchema } from "../utils/validationSchemas.mjs";
 import { User } from "../mongoose/schemas/user.mjs";
+import { hashPassword } from "../utils/helpers.mjs";
 
 const router = Router();
 
@@ -60,6 +61,7 @@ router.post(
     if (!result.isEmpty())
       return res.status(400).json({ errors: result.array() });
     try {
+      data.password = hashPassword(data.password);
       const newUser = new User(data);
       const savedUser = await newUser.save();
       return res.status(201).json(savedUser);
