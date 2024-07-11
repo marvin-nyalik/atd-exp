@@ -4,7 +4,7 @@ import passpt from "../strategies/localStrategy.mjs";
 const router = Router();
 
 router.post("/real/auth", passpt.authenticate("local"), (req, res) => {
-  res.status(200).json({ msg: "Authenticated" });
+  res.status(200).json({ msg: "Authenticated", user: req.user });
 });
 
 router.post("/logout", (req, res) => {
@@ -24,7 +24,7 @@ router.post("/logout", (req, res) => {
   });
 });
 
-router.get("/status", (req, res, next) => {
+router.get("/auth-status", (req, res, next) => {
   if (req.user) {
     console.log(req.user);
     res.status(200).json({ msg: "You logged in" });
