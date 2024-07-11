@@ -1,28 +1,32 @@
+// localStrategy.mjs
 import passport from "passport";
-import { Strategy } from "passport-local";
+import { Strategy as LocalStrategy } from "passport-local";
 import { comparePassword } from "../utils/helpers.mjs";
 import { User } from "../mongoose/schemas/user.mjs";
 
 passport.serializeUser((user, done) => {
-  console.log("serializer");
-  done(null, user.id);
+  done(null, { id: user.id, type: 'local' });
 });
 
-passport.deserializeUser((id, done) => {
-  console.log("deserializer");
-  try {
-    const user = mock_users.find((user) => user.id === id);
-    if (!user) throw new Error("User not found");
-    done(null, user);
-  } catch (err) {
-    done(err, null);
+passport.deserializeUser(async (data, done) => {
+  if (data.type === 'local') {
+    try {
+      const user = await User.findById(data.id);
+      if (!user) throw new Error("User not found");
+      done(null, user);
+    } catch (err) {
+      done(err, null);
+    }
+  } else {
+    done(new Error("Invalid user type"), null);
   }
 });
-const passAuth = passport.use(
-  new Strategy(async(username, password, done) => {
+
+const localAuth = passport.use(
+  new LocalStrategy(async (username, password, done) => {
     try {
-      const user = await User.findOne({username});
-      if (!user) throw new Error("User not Found");
+      const user = await User.findOne({ username });
+      if (!user) throw new Error("User not found");
       if (!comparePassword(password, user.password)) throw new Error("Invalid credentials");
       done(null, user);
     } catch (err) {
@@ -31,4 +35,4 @@ const passAuth = passport.use(
   })
 );
 
-export default passAuth;
+export default localAuth;
