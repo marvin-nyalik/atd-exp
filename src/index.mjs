@@ -5,8 +5,12 @@ import session from "express-session";
 import passport from "passport";
 import MongoStore from "connect-mongo";
 import mongoose from "mongoose";
+import dotenv from "dotenv";
+import localAuth from './strategies/localStrategy.mjs';
+import googleAuth from "./strategies/googleStrategy.mjs";
 
 const app = express();
+dotenv.config();
 
 // connecting app to database
 const connDb = () => {
@@ -43,6 +47,10 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
+
+// googleAuth;
+// localAuth;
+
 
 // use base router
 app.use(baseRouter);
