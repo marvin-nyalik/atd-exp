@@ -1,9 +1,10 @@
 import { Router } from "express";
-import passpt from "../strategies/localStrategy.mjs";
+import "../strategies/localStrategy.mjs";
+import passport from "passport";
 
 const router = Router();
 
-router.post("/real/auth", passpt.authenticate("local"), (req, res) => {
+router.post("/real/auth", passport.authenticate("local"), (req, res) => {
   res.status(200).json({ msg: "Authenticated", user: req.user });
 });
 
