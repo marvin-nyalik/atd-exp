@@ -13,7 +13,7 @@ dotenv.config();
 // connecting app to database
 const connDb = () => {
   mongoose
-    .connect("mongodb://127.0.0.1:27017/express-adt")
+    .connect(process.env.MONGODB_URI)
     .then(() => {
       console.log(`Connected to mongo db`);
     })
