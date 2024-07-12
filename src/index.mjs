@@ -6,8 +6,6 @@ import passport from "passport";
 import MongoStore from "connect-mongo";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import localAuth from './strategies/localStrategy.mjs';
-import googleAuth from "./strategies/googleStrategy.mjs";
 
 const app = express();
 dotenv.config();
@@ -48,29 +46,24 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-// googleAuth;
-// localAuth;
-
-
 // use base router
 app.use(baseRouter);
 
 const PORT = process.env.PORT || 3100;
 
 // CREATING A COOKIE EXAMPLE
+app.get("/", (req, res) => {
+  const isProduction = process.env.NODE_ENV === "production";
 
-// app.get("/", (req, res) => {
-//   const isProduction = process.env.NODE_ENV === "production";
-
-//   res.cookie("greeting", "guten mogen", {
-//     maxAge: 60000,
-//     signed: true,
-//     httpOnly: true,
-//     secure: isProduction,
-//     sameSite: "lax",
-//   });
-//   res.status(200).json({ msg: "Hello World" });
-// });
+  res.cookie("greeting", "guten mogen", {
+    maxAge: 60000,
+    signed: true,
+    httpOnly: true,
+    secure: isProduction,
+    sameSite: "lax",
+  });
+  res.status(200).json({ msg: "Hello World" });
+});
 
 app.listen(PORT, () => {
   console.log(`We are running on ${PORT}`);
