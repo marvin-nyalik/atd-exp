@@ -1,4 +1,3 @@
-// GoogleStrategy.mjs
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth2";
 import { GoogleUser } from "../mongoose/schemas/googleUser.mjs";
@@ -8,9 +7,11 @@ dotenv.config();
 
 passport.serializeUser((user, done) => {
   done(null, { id: user.id, type: 'google' });
+  console.log(`User serialized: ${user}`)
 });
 
 passport.deserializeUser(async (data, done) => {
+  console.log(`Data to deserialize: ${data}`)
   if (data.type === 'google') {
     try {
       const user = await GoogleUser.findById(data.id);
