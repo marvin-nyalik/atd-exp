@@ -1,6 +1,7 @@
 import { Router } from "express";
-import authenticator from "../strategies/googleStrategy.mjs";
+import "../strategies/googleStrategy.mjs";
 import dotenv from "dotenv";
+import passport from "passport";
 
 dotenv.config();
 
@@ -8,8 +9,7 @@ const router = Router();
 
 router.get(
   "/google-auth",
-  authenticator.authenticate("google", {
-    access_type: "offline",
+  passport.authenticate("google", {
     scope: ["email", "profile"],
   }),
   (req, res) => {
@@ -17,7 +17,7 @@ router.get(
   }
 );
 
-router.get("/auth/google", authenticator.authenticate("google"), (req, res) => {
+router.get("/auth/google", passport.authenticate("google"), (req, res) => {
   res.status(200).json({ msg: "Authenticated", user: req.user });
 });
 
