@@ -1,4 +1,4 @@
-import { checkSchema } from 'express-validator';
+import { checkSchema } from "express-validator";
 
 export const userValidationSchema = checkSchema({
   username: {
@@ -26,7 +26,7 @@ export const userValidationSchema = checkSchema({
     },
   },
   password: {
-    optional: { options: { nullable: true } }, // Password is optional for OAuth users
+    optional: { options: { nullable: true } },
     isString: {
       errorMessage: "Password must be a string",
     },
@@ -41,8 +41,9 @@ export const userValidationSchema = checkSchema({
       errorMessage: "OAuth Provider must be a string",
     },
     isIn: {
-      options: [['google', 'facebook', null]],
-      errorMessage: "OAuth Provider must be one of 'google', 'facebook', or null",
+      options: [["google", "facebook", null]],
+      errorMessage:
+        "OAuth Provider must be one of 'google', 'facebook', or null",
     },
   },
   oauthId: {
@@ -52,4 +53,3 @@ export const userValidationSchema = checkSchema({
     },
   },
 });
-

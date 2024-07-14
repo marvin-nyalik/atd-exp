@@ -52,25 +52,21 @@ router.patch("/api/users/:id", resolveUserMiddleware, (req, res) => {
   res.status(200).json(mock_users[userIdx]);
 });
 
-router.post(
-  "/api/users",
-  userValidationSchema,
-  async (req, res) => {
-    const result = validationResult(req);
-    const data = matchedData(req);
-    if (!result.isEmpty())
-      return res.status(400).json({ errors: result.array() });
-    try {
-      data.password = hashPassword(data.password);
-      const newUser = new User(data);
-      const savedUser = await newUser.save();
-      return res.status(201).json(savedUser);
-    } catch (err) {
-      console.log(err);
-      return res.sendStatus(400);
-    }
+router.post("/api/users", userValidationSchema, async (req, res) => {
+  const result = validationResult(req);
+  const data = matchedData(req);
+  if (!result.isEmpty())
+    return res.status(400).json({ errors: result.array() });
+  try {
+    data.password = hashPassword(data.password);
+    const newUser = new User(data);
+    const savedUser = await newUser.save();
+    return res.status(201).json(savedUser);
+  } catch (err) {
+    console.log(err);
+    return res.sendStatus(400);
   }
-);
+});
 
 router.delete("/api/users/:id", resolveUserMiddleware, (req, res) => {
   const { userIdx } = req;

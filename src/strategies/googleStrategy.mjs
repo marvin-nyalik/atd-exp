@@ -6,13 +6,13 @@ import dotenv from "dotenv";
 dotenv.config();
 
 passport.serializeUser((user, done) => {
-  done(null, { id: user.id, type: 'google' });
-  console.log(`User serialized: ${user}`)
+  done(null, { id: user.id, type: "google" });
+  console.log(`User serialized: ${user}`);
 });
 
 passport.deserializeUser(async (data, done) => {
-  console.log(`Data to deserialize: ${data}`)
-  if (data.type === 'google') {
+  console.log(`Data to deserialize: ${data}`);
+  if (data.type === "google") {
     try {
       const user = await GoogleUser.findById(data.id);
       done(null, user);
@@ -40,7 +40,7 @@ const googleAuth = passport.use(
           user = await User.create({
             username: profile.displayName,
             email: profile.emails[0].value,
-            oauthProvider: 'google',
+            oauthProvider: "google",
             oauthId: profile.id,
           });
         }
