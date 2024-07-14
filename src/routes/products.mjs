@@ -4,12 +4,10 @@ import { mock_products } from "../utils/constants.mjs";
 const router = Router();
 
 router.get("/api/products", (req, res) => {
-  if (
-    req.signedCookies.greeting &&
-    req.signedCookies.greeting === "guten mogen"
-  )
+  console.log(`${req.user}`)
+  if (req.user)
     return res.status(200).json({ products: mock_products });
-  return res.status(400).json({ msg: "You need a cookie" });
+  return res.status(400).json({ msg: "You must log in" });
 });
 
 router.post("/api/cart", (req, res) => {
