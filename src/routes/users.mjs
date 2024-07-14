@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { mock_users } from "../utils/constants.mjs";
 import { resolveUserMiddleware } from "../utils/middlewares.mjs";
-import { checkSchema, validationResult, matchedData } from "express-validator";
+import { validationResult, matchedData } from "express-validator";
 import { userValidationSchema } from "../utils/validationSchemas.mjs";
 import { User } from "../mongoose/schemas/user.mjs";
 import { hashPassword } from "../utils/helpers.mjs";
@@ -54,7 +54,7 @@ router.patch("/api/users/:id", resolveUserMiddleware, (req, res) => {
 
 router.post(
   "/api/users",
-  checkSchema(userValidationSchema),
+  userValidationSchema,
   async (req, res) => {
     const result = validationResult(req);
     const data = matchedData(req);
