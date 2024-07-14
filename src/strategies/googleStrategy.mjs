@@ -1,6 +1,6 @@
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth2";
-import { GoogleUser } from "../mongoose/schemas/googleUser.mjs";
+import { User } from "../mongoose/schemas/user.mjs";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -34,15 +34,16 @@ const googleAuth = passport.use(
     },
     async (request, accessToken, refreshToken, profile, done) => {
       try {
-        let user = await GoogleUser.findOne({ googleID: profile.id });
+        let user = await User.findOne({ oauthId: profile.id });
 
         if (!user) {
-          user = await GoogleUser.create({
+          user = await User.create({
             username: profile.displayName,
-            googleID: profile.id,
+            email: profile.emails[0].value,
+            oauthProvider: 'google',
+            oauthId: profile.id,
           });
         }
-
         return done(null, user);
       } catch (err) {
         return done(err, null);
