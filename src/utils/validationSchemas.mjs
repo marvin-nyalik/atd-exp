@@ -1,4 +1,6 @@
-export const userValidationSchema = {
+import { checkSchema } from 'express-validator';
+
+export const userValidationSchema = checkSchema({
   username: {
     trim: true,
     escape: true,
@@ -9,48 +11,45 @@ export const userValidationSchema = {
       errorMessage: "Username must be a string",
     },
     isLength: {
-      options: {
-        min: 5,
-        max: 15,
-        errorMessage: "Username must be at least 5 to 15 characters long",
-      },
+      options: { min: 5, max: 15 },
+      errorMessage: "Username must be at least 5 to 15 characters long",
     },
   },
-  name: {
+  email: {
     trim: true,
     escape: true,
-    isLength: {
-      options: {
-        min: 4,
-        max: 15,
-        errorMessage: "Name must be at least 4 chars long",
-      },
-    },
     notEmpty: {
-      errorMessage: "Name must be present",
+      errorMessage: "Email must be present",
     },
-    isString: {
-      errorMessage: "Name must be a string",
+    isEmail: {
+      errorMessage: "Email must be a valid email address",
     },
   },
   password: {
-    notEmpty: true,
-  }
-};
+    optional: { options: { nullable: true } }, // Password is optional for OAuth users
+    isString: {
+      errorMessage: "Password must be a string",
+    },
+    isLength: {
+      options: { min: 6 },
+      errorMessage: "Password must be at least 6 characters long",
+    },
+  },
+  oauthProvider: {
+    optional: { options: { nullable: true } },
+    isString: {
+      errorMessage: "OAuth Provider must be a string",
+    },
+    isIn: {
+      options: [['google', 'facebook', null]],
+      errorMessage: "OAuth Provider must be one of 'google', 'facebook', or null",
+    },
+  },
+  oauthId: {
+    optional: { options: { nullable: true } },
+    isString: {
+      errorMessage: "OAuth ID must be a string",
+    },
+  },
+});
 
-//Alternatively...
-// import { body } from 'express-validator';
-
-// export const userValidationSchema = [
-//   body('username')
-//     .trim() // Trims leading and trailing whitespace
-//     .notEmpty().withMessage('Username must be present')
-//     .isString().withMessage('Username must be a string')
-//     .isLength({ min: 5, max: 15 }).withMessage('Username must be at least 5 to 15 characters long'),
-  
-//   body('name')
-//     .trim() // Trims leading and trailing whitespace
-//     .notEmpty().withMessage('Name must be present')
-//     .isString().withMessage('Name must be a string')
-//     .isLength({ min: 4 }).withMessage('Name must be at least 4 chars long')
-// ];
