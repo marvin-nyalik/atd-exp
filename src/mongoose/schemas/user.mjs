@@ -1,16 +1,32 @@
 import mongoose from "mongoose";
 
-const UserSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
   username: {
-    type: mongoose.Schema.Types.String,
+    type: String,
     required: true,
-    unique: true,
+    unique: true
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true
   },
   password: {
-    type: mongoose.Schema.Types.String,
-    required: true,
+    type: String,
+    required: function() {
+      return !this.oauthProvider;
+    }
   },
-  displayName: mongoose.Schema.Types.String,
+  oauthProvider: {
+    type: String,
+    enum: ['google', 'facebook', null],
+    default: null
+  },
+  oauthId: {
+    type: String,
+    unique: true,
+    sparse: true
+  }
 });
 
-export const User = mongoose.model('User', UserSchema);
+export const User = mongoose.model('User', userSchema);
