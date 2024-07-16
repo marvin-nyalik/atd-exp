@@ -4,25 +4,17 @@ import cookieParser from "cookie-parser";
 import session from "express-session";
 import passport from "passport";
 import MongoStore from "connect-mongo";
-import mongoose from "mongoose";
 import dotenv from "dotenv";
+import connectDB from "../db.mjs";
+import mongoose from "mongoose";
 
 const app = express();
 dotenv.config();
 
 // connecting app to database
-const connDb = () => {
-  mongoose
-    .connect(process.env.MONGODB_URI)
-    .then(() => {
-      console.log(`Connected to mongo db`);
-    })
-    .catch((err) => {
-      console.log(`Error: ${err}`);
-    });
-};
-
-connDb();
+connectDB(process.env.MONGODB_URI).then(() => {
+  console.log(`Connected to mongo db`);
+}).catch(err => console.log(err));
 
 //register session, json, cookieParser middleware
 app.use(express.json());
@@ -38,7 +30,7 @@ app.use(
       sameSite: "lax",
       maxAge: 60000 * 10,
     },
-    store:MongoStore.create({
+    store: MongoStore.create({
       client: mongoose.connection.getClient(),
     }),
   })
@@ -68,3 +60,5 @@ app.get("/", (req, res) => {
 app.listen(PORT, () => {
   console.log(`We are running on ${PORT}`);
 });
+
+export default app;
