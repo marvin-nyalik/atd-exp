@@ -22,7 +22,7 @@ const invalid_user = {
 
 describe("User Registration", () => {
   let app;
-  
+
   beforeAll(async () => {
     connectDB(process.env.MONGODB_TEST_URI)
       .then(() => {
@@ -54,11 +54,26 @@ describe("User Registration", () => {
   it("Should login a valid user", async () => {
     const res = await request(app).post("/real/auth").send(user_to_auth);
     expect(res.status).toBe(200);
-    
-    const cookies = res.headers['set-cookie'];
+
+    const cookies = res.headers["set-cookie"];
     expect(cookies).toBeDefined();
-    const connectSidCookie = cookies.find(cookie => cookie.startsWith('connect.sid='));
-    expect(connectSidCookie).toBeDefined();  });
+    const connectSidCookie = cookies.find((cookie) =>
+      cookie.startsWith("connect.sid=")
+    );
+    expect(connectSidCookie).toBeDefined();
+  });
+
+  it("Should allow user to visit protected routes", async () => {
+    const res = await request(app)
+      .post("/real/auth")
+      .send(user_to_auth)
+      .then((res) => {
+        return request(app)
+          .get("/auth-status")
+          .set("Cookie", res.headers["set-cookie"]);
+      });
+    expect(res.status).toBe(200);
+  });
 
   afterAll(async () => {
     await mongoose.connection.dropDatabase();
