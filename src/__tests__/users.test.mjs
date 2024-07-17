@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { User } from "../mongoose/schemas/user.mjs";
 import request from "supertest";
 import connectDB from "../../db.mjs";
 import createApp from "../../createExpressApp.mjs";
@@ -64,14 +63,9 @@ describe("User Registration", () => {
   });
 
   it("Should allow user to visit protected routes", async () => {
-    const res = await request(app)
-      .post("/real/auth")
-      .send(user_to_auth)
-      .then((res) => {
-        return request(app)
-          .get("/auth-status")
-          .set("Cookie", res.headers["set-cookie"]);
-      });
+    const res = await request(app).post("/real/auth").send(user_to_auth).then((res)=>{
+      return request(app).get('/auth-status').set("Cookie", res.headers['set-cookie'])
+    });
     expect(res.status).toBe(200);
   });
 
