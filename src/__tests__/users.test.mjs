@@ -67,6 +67,7 @@ describe("User Registration", () => {
       return request(app).get('/auth-status').set("Cookie", res.headers['set-cookie'])
     });
     expect(res.status).toBe(200);
+    expect(res.body.msg).toBe("You logged in");
   });
 
   afterAll(async () => {
