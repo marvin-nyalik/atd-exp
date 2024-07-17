@@ -23,7 +23,7 @@ This project demonstrates the core concepts and features of an Express.js applic
 - Setting up a basic Express server
 - Implementing authentication using sessions
 - Connecting to a MongoDB database
-- Writing unit tests to ensure code quality and reliability
+- Writing unit/integration tests to ensure code quality and reliability
 
 ## Technologies Used
 
