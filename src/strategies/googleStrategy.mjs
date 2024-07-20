@@ -1,28 +1,28 @@
-import passport from "passport";
-import { Strategy as GoogleStrategy } from "passport-google-oauth2";
-import { User } from "../mongoose/schemas/user.mjs";
-import dotenv from "dotenv";
+import passport from 'passport'
+import { Strategy as GoogleStrategy } from 'passport-google-oauth2'
+import { User } from '../mongoose/schemas/user.mjs'
+import dotenv from 'dotenv'
 
-dotenv.config();
+dotenv.config()
 
 passport.serializeUser((user, done) => {
-  done(null, { id: user.id, type: "google" });
-  console.log(`User serialized: ${user}`);
-});
+  done(null, { id: user.id, type: 'google' })
+  console.log(`User serialized: ${user}`)
+})
 
 passport.deserializeUser(async (data, done) => {
-  console.log(`Data to deserialize: ${data}`);
-  if (data.type === "google") {
+  console.log(`Data to deserialize: ${data}`)
+  if (data.type === 'google') {
     try {
-      const user = await GoogleUser.findById(data.id);
-      done(null, user);
+      const user = await GoogleUser.findById(data.id)
+      done(null, user)
     } catch (err) {
-      done(err, null);
+      done(err, null)
     }
   } else {
-    done(new Error("Invalid user type"), null);
+    done(new Error('Invalid user type'), null)
   }
-});
+})
 
 const googleAuth = passport.use(
   new GoogleStrategy(
@@ -34,22 +34,22 @@ const googleAuth = passport.use(
     },
     async (request, accessToken, refreshToken, profile, done) => {
       try {
-        let user = await User.findOne({ oauthId: profile.id });
+        let user = await User.findOne({ oauthId: profile.id })
 
         if (!user) {
           user = await User.create({
             username: profile.displayName,
             email: profile.emails[0].value,
-            oauthProvider: "google",
+            oauthProvider: 'google',
             oauthId: profile.id,
-          });
+          })
         }
-        return done(null, user);
+        return done(null, user)
       } catch (err) {
-        return done(err, null);
+        return done(err, null)
       }
     }
   )
-);
+)
 
-export default googleAuth;
+export default googleAuth

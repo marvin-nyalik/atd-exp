@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose'
 
 const UserSchema = new mongoose.Schema({
   username: {
@@ -7,6 +7,6 @@ const UserSchema = new mongoose.Schema({
     unique: true,
   },
   googleID: mongoose.Schema.Types.String,
-});
+})
 
-export const GoogleUser = mongoose.model('GoogleUser', UserSchema);
+export const GoogleUser = mongoose.model('GoogleUser', UserSchema)

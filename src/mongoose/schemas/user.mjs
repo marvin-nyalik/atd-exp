@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose'
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -14,12 +14,12 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: function () {
-      return !this.oauthProvider;
+      return !this.oauthProvider
     },
   },
   oauthProvider: {
     type: String,
-    enum: ["google", "facebook", null],
+    enum: ['google', 'facebook', null],
     default: null,
   },
   oauthId: {
@@ -27,6 +27,6 @@ const userSchema = new mongoose.Schema({
     unique: true,
     sparse: true,
   },
-});
+})
 
-export const User = mongoose.model("User", userSchema);
+export const User = mongoose.model('User', userSchema)

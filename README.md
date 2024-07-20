@@ -41,12 +41,14 @@ This project demonstrates the core concepts and features of an Express.js applic
 To get started with this project, follow these steps:
 
 1. Clone the repository:
+
    ```bash
    git clone git@github.com:marvin-nyalik/atd-exp.git
    cd atd-exp.git
    ```
 
 2. Install the dependencies:
+
    ```bash
    npm install
    ```
@@ -63,6 +65,7 @@ To get started with this project, follow these steps:
 ## Usage
 
 To run the application in development mode, use the following command:
+
 ```bash
 npm run dev
 ```
@@ -86,6 +89,7 @@ MongoDB is used as the database for this project. Mongoose is used to interact w
 Testing is an important part of this project. Jest and Supertest are used to write and run tests.
 
 To run the tests, use the following command:
+
 ```bash
 npm test
 ```
@@ -105,4 +109,3 @@ Contributions are welcome! If you have any suggestions or improvements, please o
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
-

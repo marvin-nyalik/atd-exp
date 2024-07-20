@@ -1,7 +1,7 @@
-import mongoose from 'mongoose';
+import mongoose from 'mongoose'
 
 const connectDB = async (uri) => {
-  await mongoose.connect(uri);
-};
+  await mongoose.connect(uri)
+}
 
-export default connectDB;
+export default connectDB
