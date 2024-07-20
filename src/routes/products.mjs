@@ -1,36 +1,19 @@
-import { Router } from "express";
-import { mock_products } from "../utils/constants.mjs";
+import express from 'express';
+import { productValidationSchema } from '../utils/productValidationSchema.mjs';
+import {
+  createProduct,
+  getProducts,
+  getProductById,
+  updateProduct,
+  deleteProduct,
+} from '../controllers/products';
 
-const router = Router();
+const router = express.Router();
 
-router.get("/api/products", (req, res) => {
-  console.log(`${req.user}`)
-  if (req.user)
-    return res.status(200).json({ products: mock_products });
-  return res.status(400).json({ msg: "You must log in" });
-});
-
-router.post("/api/cart", (req, res) => {
-  const user = req.session.user;
-  if (!user) return res.status(401).json({ msg: "Unauthenticated " });
-  const { body: item } = req;
-
-  if (req.session.cart) {
-    req.session.cart.push(item);
-  } else {
-    req.session.cart = [item];
-  }
-  res.status(200).json({ cart: req.session.cart });
-});
-
-router.get("/api/cart", (req, res) => {
-  if (!req.session.user) {
-    return res.status(403).json({ msg: "You not authenticated" });
-  } else if (!req.session.cart) {
-    return res.status(200).json({ cart: [] });
-  } else {
-    return res.status(200).json({ cart: req.session.cart });
-  }
-});
+router.post('/products', productValidationSchema, createProduct);
+router.get('/products', getProducts);
+router.get('/products/:id', getProductById);
+router.patch('/products/:id', productValidationSchema, updateProduct);
+router.delete('/products/:id', deleteProduct);
 
 export default router;
